@@ -5,14 +5,14 @@ import heapq
 
 def parse_calorie_data(lines):
     return [
-        [ int(line) for line in line_group ]
-        for is_empty, line_group in it.groupby(lines, lambda l: l == '')
+        [int(line) for line in line_group]
+        for is_empty, line_group in it.groupby(lines, lambda l: l == "")
         if not is_empty
     ]
 
 
 def calorie_totals(lines):
-    return [ sum(calorie_group) for calorie_group in parse_calorie_data(lines) ]
+    return [sum(calorie_group) for calorie_group in parse_calorie_data(lines)]
 
 
 def part_a() -> int:
