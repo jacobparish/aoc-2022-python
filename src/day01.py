@@ -1,26 +1,16 @@
 from aocd import lines, submit
-import itertools as it
 import heapq
-
-
-def parse_calorie_data(lines):
-    return [
-        [int(line) for line in line_group]
-        for is_empty, line_group in it.groupby(lines, lambda l: l == "")
-        if not is_empty
-    ]
-
-
-def calorie_totals(lines):
-    return [sum(calorie_group) for calorie_group in parse_calorie_data(lines)]
+import utils
 
 
 def part_a() -> int:
-    return max(calorie_totals(lines))
+    return max(sum(calories) for calories in utils.split_numbers(lines))
 
 
 def part_b() -> int:
-    return sum(heapq.nlargest(3, calorie_totals(lines)))
+    return sum(
+        heapq.nlargest(3, (sum(calories) for calories in utils.split_numbers(lines)))
+    )
 
 
 if __name__ == "__main__":

@@ -1,10 +1,7 @@
 from aocd import lines, submit
 from parse import parse
 from typing import Tuple
-
-
-def parse_ranges(line: str):
-    return parse("{:d}-{:d},{:d}-{:d}", line)
+import utils
 
 
 def ranges_contain(range_tuple: Tuple[int, int, int, int]):
@@ -12,17 +9,19 @@ def ranges_contain(range_tuple: Tuple[int, int, int, int]):
     return (x1 >= x2 and y1 <= y2) or (x1 <= x2 and y1 >= y2)
 
 
+def part_a() -> int:
+    ranges = utils.parse_lines(lines, "{:d}-{:d},{:d}-{:d}")
+    return sum(map(ranges_contain, ranges))
+
+
 def ranges_overlap(range_tuple: Tuple[int, int, int, int]):
     (x1, y1, x2, y2) = range_tuple
     return x1 <= y2 and y1 >= x2
 
 
-def part_a() -> int:
-    return sum(map(ranges_contain, map(parse_ranges, lines)))
-
-
 def part_b() -> int:
-    return sum(map(ranges_overlap, map(parse_ranges, lines)))
+    ranges = utils.parse_lines(lines, "{:d}-{:d},{:d}-{:d}")
+    return sum(map(ranges_overlap, ranges))
 
 
 if __name__ == "__main__":
