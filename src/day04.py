@@ -1,6 +1,4 @@
 from aocd import lines, submit
-from parse import parse
-from typing import Tuple
 import utils
 
 
