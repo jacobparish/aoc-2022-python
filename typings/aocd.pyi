@@ -12,7 +12,7 @@ def get_data(
     block: bool = ...,
 ) -> str: ...
 def submit(
-    answer: int,
+    answer: int | str,
     part: str = ...,
     day: int = ...,
     year: int = ...,
