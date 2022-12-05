@@ -3,7 +3,11 @@ from aocd import lines, submit
 import utils
 
 
-def parse_crates(crate_rows: List[str]):
+def parse_input(lines: List[str]):
+    crate_rows, instrs = utils.parse_line_groups(
+        lines, (None, "move {:d} from {:d} to {:d}")
+    )
+
     ncrates = (len(crate_rows.pop()) + 1) // 4
 
     crates = [[] for _ in range(ncrates)]
@@ -13,15 +17,11 @@ def parse_crates(crate_rows: List[str]):
             if val != " ":
                 crates[i].append(val)
 
-    return crates
+    return crates, instrs
 
 
 def part_a() -> str:
-    crate_rows, instrs = utils.parse_line_groups(
-        lines, (None, "move {:d} from {:d} to {:d}")
-    )
-
-    crates = parse_crates(crate_rows)
+    crates, instrs = parse_input(lines)
 
     for count, src, dst in instrs:
         for _ in range(count):
@@ -31,11 +31,7 @@ def part_a() -> str:
 
 
 def part_b() -> str:
-    crate_rows, instrs = utils.parse_line_groups(
-        lines, (None, "move {:d} from {:d} to {:d}")
-    )
-
-    crates = parse_crates(crate_rows)
+    crates, instrs = parse_input(lines)
 
     for count, src, dst in instrs:
         for i in range(count):
