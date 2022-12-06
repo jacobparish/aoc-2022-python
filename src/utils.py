@@ -1,6 +1,6 @@
 import more_itertools as mit
 from parse import parse
-from typing import Iterable
+from typing import Callable, Iterable, List, TypeVar
 
 
 def split_lines(lines: Iterable[str], separator: str = ""):
@@ -36,4 +36,14 @@ def parse_line_groups(lines: Iterable[str], fmts: Iterable[str], separator=""):
         parse_lines(line_group, fmt) if fmt else line_group
         for fmt, line_group in zip(fmts, split_lines(lines, separator), strict=True)
     )
+
+
+T = TypeVar("T")
+
+
+def find_index(iter: Iterable[T], pred: Callable[[T], bool]) -> int:
+    for i, item in enumerate(iter):
+        if pred(item):
+            return i
+    return -1
 
