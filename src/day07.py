@@ -11,13 +11,13 @@ class Directory:
         self.files: Dict[str, "File"] = {}
         self.dirs: Dict[str, "Directory"] = {}
 
-    def add_file(self, name: str, file: "File"):
-        if name not in self.files:
-            self.files[name] = file
+    def add_file(self, file: "File"):
+        if file.name not in self.files:
+            self.files[file.name] = file
 
-    def add_dir(self, name: str, dir: "Directory"):
-        if name not in self.dirs:
-            self.dirs[name] = dir
+    def add_dir(self, dir: "Directory"):
+        if dir.name not in self.dirs:
+            self.dirs[dir.name] = dir
 
     @cached_property
     def size(self) -> int:
@@ -56,22 +56,22 @@ def parse_file_tree(lines: Iterable[str]) -> Directory:
     cwd = root
 
     for line in lines:
-        if line.startswith("$ "):
-            line = line[2:]
-            if line.startswith("cd"):
-                line = line[3:]
-                if line == "..":
+        tokens = line.split(" ")
+        if tokens[0] == "$":
+            if tokens[1] == "cd":
+                if tokens[2] == "..":
                     cwd = cwd.parent
-                elif line == "/":
+                elif tokens[2] == "/":
                     cwd = root
                 else:
-                    cwd = cwd.dirs[line]
-        elif line.startswith("dir"):
-            name = line[4:]
-            cwd.add_dir(name, Directory(name, cwd))
+                    cwd = cwd.dirs[tokens[2]]
+        elif tokens[0] == "dir":
+            name = tokens[1]
+            cwd.add_dir(Directory(name, cwd))
         else:
-            size, name = parse("{:d} {}", line)
-            cwd.add_file(name, File(name, size, cwd))
+            size = int(tokens[0])
+            name = tokens[1]
+            cwd.add_file(File(name, size, cwd))
 
     return root
 
