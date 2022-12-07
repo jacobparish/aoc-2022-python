@@ -45,10 +45,9 @@ class Directory:
 
 
 class File:
-    def __init__(self, name: str, size: int, parent: Directory):
+    def __init__(self, name: str, size: int):
         self.name = name
         self.size = size
-        self.parent = parent
 
 
 def parse_file_tree(lines: Iterable[str]) -> Directory:
@@ -71,7 +70,7 @@ def parse_file_tree(lines: Iterable[str]) -> Directory:
         else:
             size = int(tokens[0])
             name = tokens[1]
-            cwd.add_file(File(name, size, cwd))
+            cwd.add_file(File(name, size))
 
     return root
 
