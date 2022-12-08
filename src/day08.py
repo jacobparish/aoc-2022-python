@@ -1,11 +1,4 @@
-from aocd import data, lines, numbers, submit
-from parse import parse
-import itertools as it
-import more_itertools as mit
-import numpy as np
-import collections as col
-import heapq
-import string
+from aocd import lines, submit
 import utils
 
 
