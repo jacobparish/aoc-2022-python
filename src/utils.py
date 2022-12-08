@@ -1,4 +1,5 @@
 import more_itertools as mit
+import numpy as np
 from parse import parse
 from typing import Callable, Iterable, List, TypeVar
 
@@ -36,6 +37,41 @@ def parse_line_groups(lines: Iterable[str], fmts: Iterable[str], separator=""):
         parse_lines(line_group, fmt) if fmt else line_group
         for fmt, line_group in zip(fmts, split_lines(lines, separator), strict=True)
     )
+
+
+class IntGrid:
+    def __init__(self, ints):
+        self.data = np.array(ints)
+
+    @property
+    def width(self):
+        return self.data.shape[1]
+
+    @property
+    def height(self):
+        return self.data.shape[0]
+
+    @property
+    def rows(self):
+        return self.data
+
+    @property
+    def cols(self):
+        return self.data.T
+
+
+def parse_digit_grid(lines: Iterable[str]) -> IntGrid:
+    """
+    To parse stuff like this:
+
+    30373
+    25512
+    65332
+    33549
+    35390
+    """
+    ...
+    return IntGrid([[int(digit) for digit in line] for line in lines])
 
 
 T = TypeVar("T")
