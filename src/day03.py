@@ -1,19 +1,15 @@
-from aocd import lines, submit
+from aocd import lines
 import more_itertools as mit
 import string
+
 
 alphabet = string.ascii_lowercase + string.ascii_uppercase
 
 
 def score_line(line: str):
-    c1 = line[: len(line) // 2]
-    c2 = line[len(line) // 2 :]
+    c1, c2 = mit.divide(2, line)
     item = set(c1).intersection(c2).pop()
     return alphabet.index(item) + 1
-
-
-def part_a() -> int:
-    return sum(map(score_line, lines))
 
 
 def score_line_group(line_group):
@@ -21,10 +17,5 @@ def score_line_group(line_group):
     return alphabet.index(item) + 1
 
 
-def part_b() -> int:
-    return sum(map(score_line_group, mit.chunked(lines, 3)))
-
-
-if __name__ == "__main__":
-    submit(part_a(), part="a", day=3, year=2022)
-    submit(part_b(), part="b", day=3, year=2022)
+p1 = sum(map(score_line, lines))
+p2 = sum(map(score_line_group, mit.chunked(lines, 3)))
