@@ -1,4 +1,4 @@
-from aocd import lines, submit
+from aocd import lines
 import utils
 from typing import List
 
@@ -36,14 +36,5 @@ def simulate_rope(lines: List[str], rope_len: int) -> int:
     return len(tail_positions)
 
 
-def part_a() -> int:
-    return simulate_rope(lines, 2)
-
-
-def part_b() -> int:
-    return simulate_rope(lines, 10)
-
-
-if __name__ == "__main__":
-    submit(part_a(), part="a", day=9, year=2022)
-    submit(part_b(), part="b", day=9, year=2022)
+p1 = simulate_rope(lines, 2)
+p2 = simulate_rope(lines, 10)
