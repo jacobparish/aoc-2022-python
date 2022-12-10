@@ -1,5 +1,4 @@
-from aocd import lines, submit
-from parse import parse
+from aocd import lines
 from functools import cached_property
 from typing import Dict, Iterable, Optional
 
@@ -75,16 +74,6 @@ def parse_file_tree(lines: Iterable[str]) -> Directory:
     return root
 
 
-def part_a() -> int:
-    root = parse_file_tree(lines)
-    return root.calc_sum_below(100000)
-
-
-def part_b() -> int:
-    root = parse_file_tree(lines)
-    return root.find_delete_target(root.size - 40000000)
-
-
-if __name__ == "__main__":
-    submit(part_a(), part="a", day=7, year=2022)
-    submit(part_b(), part="b", day=7, year=2022)
+root = parse_file_tree(lines)
+p1 = root.calc_sum_below(100000)
+p2 = root.find_delete_target(root.size - 40000000)
