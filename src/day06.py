@@ -1,4 +1,4 @@
-from aocd import data, submit
+from aocd import data
 import more_itertools as mit
 import utils
 
@@ -11,14 +11,5 @@ def find_first_marker(data: str, target_len: int) -> int:
     )
 
 
-def part_a() -> int:
-    return find_first_marker(data, 4)
-
-
-def part_b() -> int:
-    return find_first_marker(data, 14)
-
-
-if __name__ == "__main__":
-    submit(part_a(), part="a", day=6, year=2022)
-    submit(part_b(), part="b", day=6, year=2022)
+p1 = find_first_marker(data, 4)
+p2 = find_first_marker(data, 14)
