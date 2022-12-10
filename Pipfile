@@ -20,4 +20,5 @@ allow_prereleases = true
 
 [scripts]
 aoc = "python src/main.py"
+test = "python src/test.py"
 format = "black ."
