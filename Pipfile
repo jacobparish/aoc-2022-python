@@ -8,6 +8,7 @@ advent-of-code-data = "*"
 numpy = "*"
 parse = "*"
 more-itertools = "*"
+numexpr = "*"
 
 [dev-packages]
 black = "*"
