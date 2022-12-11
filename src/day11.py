@@ -11,7 +11,7 @@ from typing import Callable, List
 @dataclass
 class Monkey:
     id: int
-    items: List[str]
+    items: List[int]
     op_str: str
     divisor: int
     true_monkey: int
@@ -24,7 +24,7 @@ def parse_monkeys(lines: List[str]) -> List[Monkey]:
     for line_group in utils.split_lines(lines):
         (id,) = parse("Monkey {:d}:", line_group[0])
         (items_str,) = parse("Starting items: {}", line_group[1].lstrip())
-        items = items_str.split(", ")
+        items = [int(item_str) for item_str in items_str.split(", ")]
         (op_str,) = parse("Operation: new = {}", line_group[2].lstrip())
         (divisor,) = parse("Test: divisible by {:d}", line_group[3].lstrip())
         (true_monkey,) = parse("If true: throw to monkey {:d}", line_group[4].lstrip())
@@ -42,12 +42,12 @@ def calc_monkey_business(
         for monkey in monkeys:
             monkey.num_inspections += len(monkey.items)
             for item in monkey.items:
-                new_item = numexpr.evaluate(monkey.op_str.replace("old", item))
+                new_item = numexpr.evaluate(monkey.op_str.replace("old", str(item)))
                 new_item = reduce_worry_level(new_item)
                 if new_item % monkey.divisor == 0:
-                    monkeys[monkey.true_monkey].items.append(str(new_item))
+                    monkeys[monkey.true_monkey].items.append(new_item)
                 else:
-                    monkeys[monkey.false_monkey].items.append(str(new_item))
+                    monkeys[monkey.false_monkey].items.append(new_item)
             monkey.items = []
     x, y = heapq.nlargest(2, (monkey.num_inspections for monkey in monkeys))
     return x * y
