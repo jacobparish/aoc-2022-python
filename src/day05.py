@@ -1,6 +1,5 @@
 from aocd import lines
 import utils
-from typing import List
 
 
 crate_rows, instrs = utils.parse_line_groups(
