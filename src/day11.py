@@ -23,12 +23,14 @@ def parse_monkeys(lines: List[str]) -> List[Monkey]:
     monkeys: List[Monkey] = []
     for line_group in utils.split_lines(lines):
         (id,) = parse("Monkey {:d}:", line_group[0])
-        (items_str,) = parse("  Starting items: {}", line_group[1])
+        (items_str,) = parse("Starting items: {}", line_group[1].lstrip())
         items = items_str.split(", ")
-        (op_str,) = parse("  Operation: new = {}", line_group[2])
-        (divisor,) = parse("  Test: divisible by {:d}", line_group[3])
-        (true_monkey,) = parse("    If true: throw to monkey {:d}", line_group[4])
-        (false_monkey,) = parse("    If false: throw to monkey {:d}", line_group[5])
+        (op_str,) = parse("Operation: new = {}", line_group[2].lstrip())
+        (divisor,) = parse("Test: divisible by {:d}", line_group[3].lstrip())
+        (true_monkey,) = parse("If true: throw to monkey {:d}", line_group[4].lstrip())
+        (false_monkey,) = parse(
+            "If false: throw to monkey {:d}", line_group[5].lstrip()
+        )
         monkeys.append(Monkey(id, items, op_str, divisor, true_monkey, false_monkey))
     return monkeys
 
