@@ -40,7 +40,7 @@ def calc_monkey_business(
         for monkey in monkeys:
             monkey.num_inspections += len(monkey.items)
             for item in monkey.items:
-                new_item = numexpr.evaluate(monkey.op_str.replace("old", str(item)))
+                new_item = numexpr.evaluate(monkey.op_str, {"old": item})
                 new_item = reduce_worry_level(new_item)
                 if new_item % monkey.divisor == 0:
                     monkeys[monkey.true_monkey].items.append(new_item)
