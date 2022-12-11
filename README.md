@@ -4,6 +4,8 @@ My [advent of code](https://adventofcode.com) solutions for 2022.
 
 My stats this year:
 ```
+      --------Part 1---------   --------Part 2--------
+Day       Time    Rank  Score       Time   Rank  Score
  10   00:11:44    1519      0   00:21:57   1001      0
   9   00:25:00    2995      0   00:31:07   1392      0
   8   01:45:14   14695      0   02:03:20  12195      0
