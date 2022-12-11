@@ -10,7 +10,6 @@ from typing import Callable, List
 
 @dataclass
 class Monkey:
-    id: int
     items: List[int]
     op_str: str
     divisor: int
@@ -22,7 +21,6 @@ class Monkey:
 def parse_monkeys(lines: List[str]) -> List[Monkey]:
     monkeys: List[Monkey] = []
     for line_group in utils.split_lines(lines):
-        (id,) = parse("Monkey {:d}:", line_group[0])
         (items_str,) = parse("Starting items: {}", line_group[1].lstrip())
         items = [int(item_str) for item_str in items_str.split(", ")]
         (op_str,) = parse("Operation: new = {}", line_group[2].lstrip())
@@ -31,7 +29,7 @@ def parse_monkeys(lines: List[str]) -> List[Monkey]:
         (false_monkey,) = parse(
             "If false: throw to monkey {:d}", line_group[5].lstrip()
         )
-        monkeys.append(Monkey(id, items, op_str, divisor, true_monkey, false_monkey))
+        monkeys.append(Monkey(items, op_str, divisor, true_monkey, false_monkey))
     return monkeys
 
 
