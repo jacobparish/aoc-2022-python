@@ -60,7 +60,7 @@ def shortest_paths(
     get_neighbors: Callable[[V], Iterable[V]],
     dist_max: int = -1,
     stop_condition: Callable[[dict[V, int]], bool] = lambda _: False,
-) -> Dict[V, int]:
+) -> dict[V, int]:
     """
     Compute length of shortest path from source `s` to every other node visitable from `s`.
     If `t` is provided, stop after reaching node `t`.
@@ -136,3 +136,38 @@ def find_index(iter: Iterable[T], pred: Callable[[T], bool]) -> int:
             return i
     return -1
 
+
+def find(iter: Iterable[T], pred: Callable[[T], bool]) -> Optional[T]:
+    for item in iter:
+        if pred(item):
+            return item
+    return None
+
+
+def find_last_index(iter: Iterable[T], pred: Callable[[T], bool]) -> int:
+    for i, item in reversed(enumerate(iter)):
+        if pred(item):
+            return i
+    return -1
+
+
+def find_last(iter: Iterable[T], pred: Callable[[T], bool]) -> Optional[T]:
+    for item in reversed(iter):
+        if pred(item):
+            return item
+    return None
+
+
+def columns_to_rows(lines: list[str], start_at_bottom: bool = False):
+    """
+    To help parse nonsense like this:
+
+        [D]
+    [N] [C]
+    [Z] [M] [P]
+     1   2   3
+    """
+    max_len = max(len(line) for line in lines)
+    if start_at_bottom:
+        lines = reversed(lines)
+    return ["".join(line[i] for line in lines) for i in range(max_len)]
