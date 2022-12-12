@@ -92,16 +92,16 @@ def shortest_path(s: V, t: V, get_neighbors: Callable[[V], Iterable[V]]) -> int:
         raise NodeUnreachableError(f"{t} is not reachable from {s}")
 
 
-class IntGrid:
-    def __init__(self, ints):
-        self.data = np.array(ints)
+class Grid:
+    def __init__(self, data):
+        self.data = np.array(data)
 
     @property
-    def width(self):
+    def ncols(self):
         return self.data.shape[1]
 
     @property
-    def height(self):
+    def nrows(self):
         return self.data.shape[0]
 
     @property
@@ -112,8 +112,46 @@ class IntGrid:
     def cols(self):
         return self.data.T
 
+    def __getitem__(self, key):
+        return self.data[key]
 
-def parse_digit_grid(lines: Iterable[str]) -> IntGrid:
+    def find(self, val) -> tuple[int, int]:
+        i, j = np.where(self.data == val)
+        return i[0], j[0]
+
+    def find_all(self, val) -> list[tuple[int, int]]:
+        return list(zip(*np.where(self.data == val)))
+
+    def neighbors4(self, i: int, j: int) -> list[tuple[int, int]]:
+        return [
+            (i + di, j + dj)
+            for di, dj in [(1, 0), (0, 1), (-1, 0), (0, -1)]
+            if 0 <= i + di < self.nrows and 0 <= j + dj < self.ncols
+        ]
+
+    def neighbors8(self, i: int, j: int) -> list[tuple[int, int]]:
+        return [
+            (i + di, j + dj)
+            for di, dj in [
+                (1, 0),
+                (1, 1),
+                (0, 1),
+                (-1, 1),
+                (-1, 0),
+                (-1, -1),
+                (0, -1),
+                (1, -1),
+            ]
+            if 0 <= i + di < self.nrows and 0 <= j + dj < self.ncols
+        ]
+
+
+class CharGrid(Grid):
+    def __init__(self, data: list[str]):
+        super().__init__([list(s) for s in data])
+
+
+def parse_digit_grid(lines: Iterable[str]) -> Grid:
     """
     To parse stuff like this:
 
@@ -124,7 +162,7 @@ def parse_digit_grid(lines: Iterable[str]) -> IntGrid:
     35390
     """
     ...
-    return IntGrid([[int(digit) for digit in line] for line in lines])
+    return Grid([[int(digit) for digit in line] for line in lines])
 
 
 T = TypeVar("T")
