@@ -2,6 +2,8 @@ import more_itertools as mit
 import numpy as np
 from parse import parse
 from typing import Callable, Iterable, List, TypeVar
+from queue import SimpleQueue
+from typing import Callable, Dict, Iterable, List, Optional, TypeVar
 
 
 def split_lines(lines: Iterable[str], separator: str = ""):
@@ -37,6 +39,58 @@ def parse_line_groups(lines: Iterable[str], fmts: Iterable[str], separator=""):
         parse_lines(line_group, fmt) if fmt else line_group
         for fmt, line_group in zip(fmts, split_lines(lines, separator), strict=True)
     )
+
+
+def bitsum(n: int) -> int:
+    p = 0
+    while n > 0:
+        p += n & 1
+        n >>= 1
+    return p
+
+
+V = TypeVar("V")
+
+
+class NodeUnreachableError(Exception):
+    ...
+
+
+def shortest_paths(
+    s: V,
+    get_neighbors: Callable[[V], Iterable[V]],
+    dist_max: int = -1,
+    stop_condition: Callable[[Dict[V, int]], bool] = lambda _: False,
+) -> Dict[V, int]:
+    """
+    Compute length of shortest path from source `s` to every other node visitable from `s`.
+    If `t` is provided, stop after reaching node `t`.
+    If `dist_max` is provided, only find paths of length <= dist_max.
+    """
+    q: SimpleQueue[V] = SimpleQueue()
+    q.put(s)
+    dists = {s: 0}
+    while not q.empty():
+        v = q.get()
+        for w in get_neighbors(v):
+            if w not in dists:
+                dists[w] = dists[v] + 1
+                if stop_condition(dists):
+                    return dists
+                if dist_max < 0 or dists[w] < dist_max:
+                    q.put(w)
+    return dists
+
+
+def shortest_path(s: V, t: V, get_neighbors: Callable[[V], Iterable[V]]) -> int:
+    """
+    Compute length of shortest path from source `s` to target `t`.
+    """
+    dists = shortest_paths(s, get_neighbors, stop_condition=lambda dists: t in dists)
+    if t in dists:
+        return dists[t]
+    else:
+        raise NodeUnreachableError(f"{t} is not reachable from {s}")
 
 
 class IntGrid:
