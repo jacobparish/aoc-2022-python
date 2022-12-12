@@ -41,5 +41,5 @@ for i, row in enumerate(grid):
                     p2,
                     utils.shortest_path((i, j), end, lambda v: get_neighbors(grid, *v)),
                 )
-            except utils.NodeUnreachableError as e:
+            except utils.NodeUnreachableError:
                 pass
