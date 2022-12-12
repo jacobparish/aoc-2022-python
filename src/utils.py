@@ -1,9 +1,8 @@
 import more_itertools as mit
 import numpy as np
 from parse import parse
-from typing import Callable, Iterable, List, TypeVar
 from queue import SimpleQueue
-from typing import Callable, Dict, Iterable, List, Optional, TypeVar
+from typing import Callable, Iterable, Optional, TypeVar
 
 
 def split_lines(lines: Iterable[str], separator: str = ""):
@@ -60,7 +59,7 @@ def shortest_paths(
     s: V,
     get_neighbors: Callable[[V], Iterable[V]],
     dist_max: int = -1,
-    stop_condition: Callable[[Dict[V, int]], bool] = lambda _: False,
+    stop_condition: Callable[[dict[V, int]], bool] = lambda _: False,
 ) -> Dict[V, int]:
     """
     Compute length of shortest path from source `s` to every other node visitable from `s`.
