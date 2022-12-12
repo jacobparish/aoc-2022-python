@@ -95,6 +95,7 @@ def shortest_path(s: V, t: V, get_neighbors: Callable[[V], Iterable[V]]) -> int:
 class Grid:
     def __init__(self, data):
         self.data = np.array(data)
+        assert len(self.data.shape) == 2
 
     @property
     def ncols(self):
