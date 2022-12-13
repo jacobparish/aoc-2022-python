@@ -1,4 +1,5 @@
 from aocd import lines
+import json
 import functools
 import utils
 
@@ -32,8 +33,8 @@ divider2 = [[6]]
 packets = [divider1, divider2]
 
 for n, (line1, line2) in enumerate(utils.split_lines(lines), start=1):
-    l1 = eval(line1)
-    l2 = eval(line2)
+    l1 = json.loads(line1)
+    l2 = json.loads(line2)
     if compare(l1, l2) == -1:
         p1 += n
     packets.append(l1)
