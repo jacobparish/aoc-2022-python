@@ -59,7 +59,7 @@ def shortest_paths(
     s: V,
     get_neighbors: Callable[[V], Iterable[V]],
     dist_max: int = -1,
-    stop_condition: Callable[[dict[V, int]], bool] = lambda _: False,
+    stop_condition: Callable[[V], bool] = lambda _: False,
 ) -> dict[V, int]:
     """
     Compute length of shortest path from source `s` to every other node visitable from `s`.
@@ -74,7 +74,7 @@ def shortest_paths(
         for w in get_neighbors(v):
             if w not in dists:
                 dists[w] = dists[v] + 1
-                if stop_condition(dists):
+                if stop_condition(w, dists):
                     return dists
                 if dist_max < 0 or dists[w] < dist_max:
                     q.put(w)
@@ -85,7 +85,7 @@ def shortest_path(s: V, t: V, get_neighbors: Callable[[V], Iterable[V]]) -> int:
     """
     Compute length of shortest path from source `s` to target `t`.
     """
-    dists = shortest_paths(s, get_neighbors, stop_condition=lambda dists: t in dists)
+    dists = shortest_paths(s, get_neighbors, stop_condition=lambda v: v == t)
     if t in dists:
         return dists[t]
     else:
