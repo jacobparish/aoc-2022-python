@@ -1,34 +1,36 @@
 from aocd import lines
 from parse import findall
 import more_itertools as mit
-import numpy as np
 
 paths = [list(findall("{:d},{:d}", line)) for line in lines]
 
-width = 1000  # figure out how to not have to hardcode this
-height = max(y for path in paths for _, y in path) + 3
-grid = np.zeros((width, height), dtype=bool)
+ymax = max(y for path in paths for _, y in path)
+
+grid: set[tuple[int, int]] = set()
 
 # fill in paths
 for path in paths:
     for (x1, y1), (x2, y2) in mit.sliding_window(path, 2):
-        grid[min(x1, x2) : max(x1, x2) + 1, min(y1, y2) : max(y1, y2) + 1] = True
+        if x1 == x2:
+            grid.update((x1, y) for y in range(min(y1, y2), max(y1, y2) + 1))
+        elif y1 == y2:
+            grid.update((x, y1) for x in range(min(x1, x2), max(x1, x2) + 1))
+        else:
+            raise ValueError(f"invalid path: {x1},{y1} -> {x2},{y2}")
 
-# fill bottom row
-grid[:, -1] = True
 
 p1 = 0
 p2 = 0
 
 reached_abyss = False
 
-while not grid[500, 0]:
+while (500, 0) not in grid:
     x, y = 500, 0
 
-    while True:
+    while y < ymax + 1:
         stuck = True
         for dx, dy in [(0, 1), (-1, 1), (1, 1)]:
-            if not grid[x + dx, y + dy]:
+            if (x + dx, y + dy) not in grid:
                 x += dx
                 y += dy
                 stuck = False
@@ -36,9 +38,9 @@ while not grid[500, 0]:
         if stuck:
             break
 
-    grid[x, y] = True
+    grid.add((x, y))
 
-    if y == height - 2:
+    if y == ymax + 1:
         reached_abyss = True
 
     p1 += not reached_abyss
