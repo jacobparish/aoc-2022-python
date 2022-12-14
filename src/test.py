@@ -8,6 +8,10 @@ class AocdMock:
         with open(f"data/examples/day{day:02d}/input.txt", "r") as f:
             self.data = f.read()
         self.lines = self.data.splitlines()
+        try:
+            self.numbers = [int(line) for line in self.lines]
+        except ValueError:
+            self.numbers = None
 
 
 if __name__ == "__main__":
