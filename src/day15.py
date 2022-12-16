@@ -12,23 +12,11 @@ intervals = []
 for xs, ys, xb, yb in sensors:
     d = abs(xs - xb) + abs(ys - yb) - abs(row - ys)
     if d >= 0:
-        x1 = xs - d + (xs - d == xb and yb == row)
-        x2 = xs + d - (xs + d == xb and yb == row)
+        x1 = xs - d + ((xs - d, row) == (xb, yb))
+        x2 = xs + d - ((xs + d, row) == (xb, yb))
         intervals.append((x1, x2))
 
-p1 = 0
-intervals.sort()
-xprev = -float("inf")
-
-for x1, x2 in intervals:
-    if xprev < x1:
-        p1 += x2 + 1 - x1
-        xprev = x2
-    elif xprev < x2:
-        p1 += x2 - xprev
-        xprev = x2
-
-
+p1 = utils.size_of_interval_union(intervals)
 size = 4e6
 
 for xs1, ys1, xb1, yb1 in sensors:
