@@ -210,3 +210,22 @@ def columns_to_rows(lines: list[str], start_at_bottom: bool = False):
     if start_at_bottom:
         lines = reversed(lines)
     return ["".join(line[i] for line in lines) for i in range(max_len)]
+
+
+def manhattan_circle(x: int, y: int, r: int):
+    """
+    Generate all points at manhattan distance r from (x,y)
+    """
+    if r == 0:
+        yield x, y
+    else:
+        yield x + r, y
+        yield x - r, y
+        yield x, y + r
+        yield x, y - r
+        for dx in range(1, r):
+            dy = r - dx
+            yield x + dx, y + dy
+            yield x + dx, y - dy
+            yield x - dx, y + dy
+            yield x - dx, y - dy
