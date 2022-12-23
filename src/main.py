@@ -1,7 +1,7 @@
 from aocd import submit
 import importlib
 import argparse
-import sys
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
