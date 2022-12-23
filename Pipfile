@@ -14,7 +14,8 @@ numexpr = "*"
 black = "*"
 
 [requires]
-python_version = "3.10"
+python_version = "3.11"
+python_full_version = "3.11.1"
 
 [pipenv]
 allow_prereleases = true
