@@ -48,7 +48,7 @@ for i0, row in enumerate(grid.rows[1:-1], start=1):
         score *= i0 - i
         # down
         i = i0 + 1
-        while i < grid.height - 1 and col[i] < val:
+        while i < grid.nrows - 1 and col[i] < val:
             i += 1
         score *= i - i0
         # left
@@ -58,7 +58,7 @@ for i0, row in enumerate(grid.rows[1:-1], start=1):
         score *= j0 - j
         # right
         j = j0 + 1
-        while j < grid.width - 1 and row[j] < val:
+        while j < grid.ncols - 1 and row[j] < val:
             j += 1
         score *= j - j0
 

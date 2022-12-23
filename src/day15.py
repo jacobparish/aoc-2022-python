@@ -1,8 +1,8 @@
 from aocd import lines
-import utils
+from utils import parse_lines, size_of_interval_union, Vec2
 
 
-sensors = utils.parse_lines(
+sensors = parse_lines(
     lines, "Sensor at x={:d}, y={:d}: closest beacon is at x={:d}, y={:d}"
 )
 
@@ -16,14 +16,14 @@ for xs, ys, xb, yb in sensors:
         x2 = xs + d - ((xs + d, row) == (xb, yb))
         intervals.append((x1, x2))
 
-p1 = utils.size_of_interval_union(intervals)
+p1 = size_of_interval_union(intervals)
 size = 4e6
 
 for xs1, ys1, xb1, yb1 in sensors:
     d1 = abs(xs1 - xb1) + abs(ys1 - yb1)
     border = {
         (x, y)
-        for x, y in utils.manhattan_circle(xs1, ys1, d1 + 1)
+        for x, y in Vec2(xs1, ys1).circle1(d1 + 1)
         if 0 <= x <= size and 0 <= y <= size
     }
     for xs2, ys2, xb2, yb2 in sensors:
